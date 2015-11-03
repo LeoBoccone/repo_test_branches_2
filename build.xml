@@ -1,0 +1,42 @@
+
+<project name="Shivasoft ANT Tutorial" default="deployCode" basedir="." xmlns:sf="antlib:com.salesforce"> 
+	<property file="build.properties"/> 
+	<property environment="env"/> 
+	<!-- Shows deploying code & running tests for code in directory -->
+	<taskdef uri="antlib:com.salesforce" resource="com/salesforce/antlib.xml" classpath="lib/ant-salesforce.jar"/>
+
+	<target name="deployCode"> 
+		<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="src" /> 
+	</target> <!-- Shows removing code; only succeeds if done after deployCode --> 
+
+	<target name="deployCIRunAllTests">
+  		<sf:deploy username="${sf.ciusername}"
+            			password="${sf.cipassword}"
+            			serverurl="${sf.serverurl}"
+            			testLevel="RunLocalTests"
+				rollbackOnError="true"
+            			deployRoot="../Code/src"/>
+ 	</target>
+
+	<target name="deploySITRunAllTests">
+  		<sf:deploy username="${sf.situsername}"
+            			password="${sf.sitpassword}"
+            			serverurl="${sf.serverurl}"
+            			testLevel="RunLocalTests"
+				rollbackOnError="true"
+            			deployRoot="../Code/src"/>
+ 	</target>
+
+	<target name="undeployCode"> 
+		<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="removecodepkg"/> 
+	</target>
+ <!--
+	<target name="proxy"> 
+		<property name="proxy.host" value=" ProxyURL " /> 
+		<property name="proxy.port" value="1234" /> 
+		<property name="proxy.user" value="UserName" /> 
+		<property name="proxy.pwd" value="Password" /> 
+		<setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}" proxyuser="${proxy.user}" proxypassword="${proxy.pwd}" /> 
+	</target> 
+-->
+</project>
